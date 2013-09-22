@@ -1,0 +1,131 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/layout/template.xhtml">
+    	<ui:define name="pageTitle"><h:outputText value="Histórico de Alertas" /></ui:define>
+    	
+		<ui:define name="content">
+		
+			<h:panelGroup rendered="#{historicoAlertaMB.panel == 'lista'}">
+		
+				<div style="border-bottom: 1px solid #E5E5E5;">
+					<h3><h:outputText value="Histórico de Alertas" />
+						<small> <h:outputText value="lista" /></small></h3>
+				</div>
+				
+				<h:form>
+					<h:dataTable value="#{historicoAlertaMB.result}" var="result" styleClass="table table-hover">
+		                
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Impressora" /></f:facet>
+							<h:commandLink action="#{historicoAlertaMB.listarHistoricoAlertasImpressora}" value="#{result.impressora}" title="Clique para listar alertas.">
+	                			<f:setPropertyActionListener target="#{historicoAlertaMB.idSelecionado}" value="#{result.impressora}" />
+	            			</h:commandLink>
+		                </h:column>
+
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Template" /></f:facet>
+							<h:outputText value="#{result.template}" converter="br.com.controleimpressoras.converter.TemplateSnmpConverter"/>
+		                </h:column>
+						
+						<h:column>
+							<f:facet name="header"><h:outputText value="Cliente" /></f:facet>
+							<h:outputText value="#{result.cliente}" converter="br.com.controleimpressoras.converter.ClienteConverter"/>
+		                </h:column>
+
+		                <h:column>
+							<f:facet name="header"><div style="text-align: right" ><h:outputText value="Quantidade" /></div></f:facet>
+							<div style="text-align: right" ><h:outputText value="#{result.quantidade}"/></div>
+		                </h:column>
+					</h:dataTable>
+					
+					<div class="control-group">
+						<div class="btn-group">
+							<h:commandButton action="#{historicoAlertaMB.consultar}" value="Nova Consula" styleClass="btn btn-default" />
+			    		</div>
+			    	</div>
+				</h:form>
+				<h:messages />
+			</h:panelGroup>
+			
+			<h:panelGroup rendered="#{historicoAlertaMB.panel == 'historico'}">
+		
+				<div style="border-bottom: 1px solid #E5E5E5;">
+					<h3><h:outputText value="Histórico de Alertas" />
+						<small> <h:outputText value="detalhe" /></small></h3>
+				</div>
+				
+				<h:form>
+					<h:dataTable value="#{historicoAlertaMB.historicoAlertasImpressora}" var="hai" styleClass="table table-hover">
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Data" /></f:facet>
+							<h:outputText value="#{hai.data}" >
+								<f:convertDateTime timeZone="#{util.timeZoneString}" pattern="dd/MM/yyyy" />
+							</h:outputText>
+		                </h:column>
+
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Status" /></f:facet>
+							<h:outputText value="#{hai.status}" />
+		                </h:column>
+					</h:dataTable>
+						
+					<div class="control-group">
+						<div class="btn-group">
+							<h:commandButton action="#{historicoAlertaMB.voltar}" value="Voltar" styleClass="btn btn-default" />
+			    		</div>
+			    	</div>
+				</h:form>
+				<h:messages />
+			</h:panelGroup>
+			
+			<h:panelGroup rendered="#{historicoAlertaMB.panel == 'consulta'}">
+				<div style="border-bottom: 1px solid #E5E5E5;">
+					<h3><h:outputText value="Histórico de Alertas" />
+						<small> <h:outputText value="consulta" /></small></h3>
+				</div>
+				<br/>
+				<h:form id="formResumoClienteEdit" styleClass="form-horizontal">
+			    	<fieldset>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Impressora" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{historicoAlertaMB.consulta.idImpressora}" label="Impressora" styleClass="input-large"/>
+				    		</div>
+			    		</div>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Data Inicial" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{historicoAlertaMB.consulta.dataInicial}" label="Data Inicial" required="true" styleClass="input-small">
+				    				<f:convertDateTime timeZone="#{util.timeZoneString}" pattern="dd/MM/yyyy" />
+				    			</h:inputText>
+				    		</div>
+			    		</div>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Data Final" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{historicoAlertaMB.consulta.dataFinal}" label="Data Final" required="true" styleClass="input-small">
+				    				<f:convertDateTime timeZone="#{util.timeZoneString}" pattern="dd/MM/yyyy" />
+				    			</h:inputText>
+				    		</div>
+			    		</div>
+			    	</fieldset>
+			    	
+			    	<div class="control-group">
+			    		<div class="controls">
+	    					<h:commandButton value="Listar" action="#{historicoAlertaMB.listar}" styleClass="btn btn-default"/>
+	    				</div>
+			    	</div>
+			    </h:form>
+			    
+			    <h:panelGroup layout="block" class="alert alert-error" rendered="#{facesContext.validationFailed or not empty facesContext.messageList }">
+			    	<h:messages showDetail="true" showSummary="false" />
+			    </h:panelGroup>
+			    
+			</h:panelGroup>
+			
+		</ui:define>
+    </ui:composition>
+</html>

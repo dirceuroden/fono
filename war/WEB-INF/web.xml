@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	<!-- Mantem informacoes da pagina (tree) no cliente (hidden). -->
+	<context-param>
+		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+		<param-value>client</param-value>
+	</context-param>
+
+	<!-- Define o ciclo de vida da aplicacao para o JSF. Em Production o desempenho 
+		eh melhor. -->
+	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-value>Production</param-value>
+	</context-param>
+
+	<!-- Sufixo das paginas com conteudo JSF. -->
+	<context-param>
+		<param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+		<param-value>.xhtml</param-value>
+	</context-param>
+
+	<!-- Listener usado na inicializacao da aplicacao para configurar entidades 
+		do Objectify. <listener> <listener-class>br.com.controleimpressoras.config.ConfigStartup</listener-class> 
+		</listener> -->
+
+	<!-- Setup do Objectify <filter> <filter-name>ObjectifyFilter</filter-name> 
+		<filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class> </filter> 
+		<filter-mapping> <filter-name>ObjectifyFilter</filter-name> <url-pattern>/*</url-pattern> 
+		</filter-mapping> -->
+	<!-- Controle de thread eh realizado pelo App Engine, necessario desabilitar 
+		no JSF. -->
+	<context-param>
+		<param-name>com.sun.faces.enableThreading</param-name>
+		<param-value>false</param-value>
+	</context-param>
+
+
+	<filter>
+		<display-name>AppEngine Bug 8145 Work Around</display-name>
+		<description>
+			Suppresses the If Modified Since header until GAE bug 8145 is fixed.
+		</description>
+		<filter-name>GAEBug8145WorkAround</filter-name>
+		<filter-class>br.com.controleimpressoras.config.HttpIfModifiedSinceFix
+		</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>GAEBug8145WorkAround</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- Login filter -->
+	<filter>
+		<filter-name>LoginFilter</filter-name>
+		<filter-class>br.com.controleimpressoras.LoginFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>LoginFilter</filter-name>
+		<url-pattern>/view/*</url-pattern>
+	</filter-mapping>
+
+
+
+
+	<servlet>
+		<servlet-name>Jersey REST Service</servlet-name>
+		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer
+		</servlet-class>
+		<init-param>
+			<param-name>com.sun.jersey.config.property.packages</param-name>
+			<param-value>br.com.controleimpressoras.rest</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Jersey REST Service</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+
+
+
+
+
+	<!-- Front Controller do JSF. -->
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>/faces/*</url-pattern>
+		<url-pattern>*.jsf</url-pattern>
+	</servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>

@@ -1,0 +1,166 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/layout/template.xhtml">
+    	<ui:define name="meta"> 
+    		<meta http-equiv="refresh" content="#{alertaMB.panel == 'painel' ? 60 : 99999999}" />	
+    	</ui:define>
+    
+    	<ui:define name="pageTitle"><h:outputText value="Alertas" /></ui:define>
+    	
+		<ui:define name="content">
+		
+
+			<h:panelGroup rendered="#{alertaMB.panel == 'painel'}">
+		
+				<div >
+					<h3><h:outputText value="Painel" />
+						<small> <h:outputText value="resumo" /></small></h3>
+				</div>
+				
+				<h:form>
+					
+					<table class="table table-hover">
+						<tr>
+							<th><h:outputText value="Status" /></th>
+							<th><h:outputText value="Quantidade"/></th>
+						</tr>
+						<tr>
+							<td><h:commandLink action="#{alertaMB.mostrarAlertas}" value="Impressoras com status de alerta" title="Clique para listar impressoras."/></td>
+							<td><h:outputText value="#{alertaMB.alertasTipo1Size}"/></td>
+						</tr>
+						<tr>
+							<td><h:commandLink action="#{alertaMB.mostrarFalhas}" value="Impressoras com falha de comunicação" title="Clique para listar impressoras."/></td>
+							<td><h:outputText value="#{alertaMB.alertasTipo2Size}" /></td>
+						</tr>
+					</table>
+					
+					<div class="control-group">
+						<div class="btn-group">
+							<h:commandButton action="#{alertaMB.atualizarPainel}" value="Atualizar" styleClass="btn btn-default" />
+			    		</div>
+			    	</div>
+				</h:form>
+				<h:messages />
+			</h:panelGroup>
+
+
+
+
+
+
+
+
+			<h:panelGroup rendered="#{alertaMB.panel == 'alerta'}">
+		
+				<div style="border-bottom: 1px solid #E5E5E5;">
+					<h3><h:outputText value="#{(alertaMB.tipoAlerta == 1) ? 'Alertas' : 'Falhas de comunicação'}" />
+						<small> <h:outputText value="lista" /></small></h3>
+				</div>
+				
+				<h:form>
+					<h:dataTable value="#{alertaMB.alertas}" var="alerta" styleClass="table table-hover">
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Impressora" /></f:facet>
+							<h:commandLink action="#{alertaMB.listarInfo}" value="#{alerta.id}" title="Clique para listar informações.">
+	                			<f:setPropertyActionListener target="#{alertaMB.idSelecionado}" value="#{alerta.id}" />
+	            			</h:commandLink>
+		                </h:column>
+		                
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Cliente" /></f:facet>
+							<h:outputText value="#{alerta.cliente}" converter="br.com.controleimpressoras.converter.ClienteConverter"/>
+		                </h:column>
+		                
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Data" /></f:facet>
+							<h:outputText value="#{alerta.data}" >
+								<f:convertDateTime timeZone="#{util.timeZoneString}" pattern="dd/MM/yyyy HH:mm" />
+							</h:outputText>
+		                </h:column>
+
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Descrição" /></f:facet>
+							<h:outputText value="#{alerta.descricao}" />
+		                </h:column>
+
+						<f:facet name="footer">
+				          	<div class="btn-group">
+								<h:commandButton value="Atualizar" action="#{alertaMB.atualizar}" styleClass="btn btn-default" />
+								<h:commandButton value="Voltar ao painel" action="#{alertaMB.atualizarPainel}" styleClass="btn btn-default" />
+				               	<h:commandButton value="Início" action="#{alertaMB.pagInicio}" styleClass="btn btn-default" disabled="#{alertaMB.alertaPage == 0}"/>
+				               	<h:commandButton value="Anterior" action="#{alertaMB.pagAnterior}" styleClass="btn btn-default" disabled="#{alertaMB.alertaPage == 0}"/>
+				               	<h:commandButton value="Próximo" action="#{alertaMB.pagProximo}" styleClass="btn btn-default" disabled="#{alertaMB.alertaRows != alertaMB.alertasSize}"/>
+				               </div>
+					    </f:facet>
+
+					</h:dataTable>
+					
+				</h:form>
+				<h:messages />
+			</h:panelGroup>
+
+
+
+			<h:panelGroup rendered="#{alertaMB.panel == 'info'}">
+		
+				<div >
+					<h3><h:outputText value="Informações da Impressora" />
+						<small> <h:outputText value="lista" /></small></h3>
+				</div>
+				
+				<h:form>
+					
+					<table class="table table-bordered">
+						<tr>
+							<td><strong><h:outputText value="Cliente" /></strong></td>
+							<td><h:outputText value="#{alertaMB.impressora.cliente}" converter="br.com.controleimpressoras.converter.ClienteConverter"/></td>
+						</tr>
+						<tr>
+							<td><strong><h:outputText value="Número de Série" /></strong></td>
+							<td><h:outputText value="#{alertaMB.impressora.id}" /></td>
+						</tr>
+						<tr>
+							<td><strong><h:outputText value="Descrição" /></strong></td>
+							<td><h:outputText value="#{alertaMB.impressora.descricao}" /></td>
+						</tr>
+						<tr>
+							<td><strong><h:outputText value="Template" /></strong></td>
+							<td><h:outputText value="#{alertaMB.impressora.template}" converter="br.com.controleimpressoras.converter.TemplateSnmpConverter" /></td>
+						</tr>
+					</table>
+					
+					
+					<h:dataTable value="#{alertaMB.leituras}" var="leitura" styleClass="table table-striped table-bordered">
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Informação" /></f:facet>
+							<h:outputText value="#{leitura.tipoInformacao}" converter="br.com.controleimpressoras.converter.TipoInformacaoConverter"/>
+		                </h:column>
+
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Data" /></f:facet>
+							<h:outputText value="#{leitura.data}">
+								<f:convertDateTime timeZone="#{util.timeZoneString}" pattern="dd/MM/yyyy HH:mm" />
+							</h:outputText>
+		                </h:column>
+		                
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Valor" /></f:facet>
+							<h:outputText value="#{leitura.valor}" />
+		                </h:column>
+					</h:dataTable>
+					
+					<div class="control-group">
+						<div class="btn-group">
+							<h:commandButton action="#{alertaMB.voltar}" value="Voltar" styleClass="btn btn-default" />
+			    		</div>
+			    	</div>
+				</h:form>
+				<h:messages />
+			</h:panelGroup>
+			
+		</ui:define>
+    </ui:composition>
+</html>

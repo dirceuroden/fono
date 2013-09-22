@@ -1,0 +1,110 @@
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core">
+    
+	<ul class="nav nav-list" style="padding-top: 15px;">
+		<li><em><b><h:outputText value="Status" /></b></em></li>
+	
+		<li class="#{empty parametroMB.menuAtivo || parametroMB.menuAtivo == 'alerta' ? 'active' : ''}">
+			<h:link outcome="alerta" value="#{msg['menu.alerta']}">
+				<f:param name="active" value="alerta" />
+            </h:link>
+        </li>
+        
+        <li class="#{parametroMB.menuAtivo == 'status' ? 'active' : ''}">
+			<h:link outcome="status" value="#{msg['menu.status']}">
+				<f:param name="active" value="status" />
+            </h:link>
+        </li>
+	
+		<li class="divider"></li>
+	
+		<li><em><b><h:outputText value="Cadastros" /></b></em></li>
+		<!-- 
+		<li class="# {empty parametroMB.menuAtivo || parametroMB.menuAtivo == 'lista' ? 'active' : ''}">
+			<h:link outcome="mercadoria" value="# {msg['menu.mercadoria']}">
+				<f:param name="active" value="lista" />
+            </h:link>
+		</li>
+		 -->
+		<li class="#{parametroMB.menuAtivo == 'cliente' ? 'active' : ''}">
+			<h:link outcome="cliente" value="#{msg['menu.cliente']}">
+				<f:param name="active" value="cliente" />
+            </h:link>
+        </li>
+
+		<li class="#{parametroMB.menuAtivo == 'impressora' ? 'active' : ''}">
+			<h:link outcome="impressora" value="#{msg['menu.impressora']}">
+				<f:param name="active" value="impressora" />
+            </h:link>
+        </li>
+
+		<li class="#{parametroMB.menuAtivo == 'tipoInformacao' ? 'active' : ''}">
+			<h:link outcome="tipoInformacao" value="#{msg['menu.tipoInformacao']}">
+				<f:param name="active" value="tipoInformacao" />
+            </h:link>
+        </li>
+
+		<li class="#{parametroMB.menuAtivo == 'templateSnmp' ? 'active' : ''}">
+			<h:link outcome="templateSnmp" value="#{msg['menu.templateSnmp']}">
+				<f:param name="active" value="templateSnmp" />
+            </h:link>
+        </li>
+
+		<li class="#{parametroMB.menuAtivo == 'leitura' ? 'active' : ''}">
+			<h:link outcome="leitura" value="#{msg['menu.leitura']}">
+				<f:param name="active" value="leitura" />
+            </h:link>
+        </li>
+<!-- 
+		<li class="#{parametroMB.menuAtivo == 'contadorMensal' ? 'active' : ''}">
+			<h:link outcome="contadorMensal" value="#{msg['menu.contadorMensal']}">
+				<f:param name="active" value="contadorMensal" />
+            </h:link>
+        </li>
+  -->      
+		<li class="#{parametroMB.menuAtivo == 'contador' ? 'active' : ''}">
+			<h:link outcome="contador" value="#{msg['menu.contador']}">
+				<f:param name="active" value="contador" />
+            </h:link>
+        </li>
+        
+		<li class="divider"></li>
+		
+		<li><em><b><h:outputText value="Consultas" /></b></em></li>
+		
+		<li class="#{parametroMB.menuAtivo == 'resumoCliente' ? 'active' : ''}">
+			<h:link outcome="resumoCliente" value="#{msg['menu.resumoCliente']}">
+				<f:param name="active" value="resumoCliente" />
+            </h:link>
+        </li>
+		
+		<li class="#{parametroMB.menuAtivo == 'historicoAlerta' ? 'active' : ''}">
+			<h:link outcome="historicoAlerta" value="#{msg['menu.historicoAlerta']}">
+				<f:param name="active" value="historicoAlerta" />
+            </h:link>
+        </li>
+
+		<li class="#{parametroMB.menuAtivo == 'relatorioLeituras' ? 'active' : ''}">
+			<h:link outcome="relatorioLeituras" value="#{msg['menu.relatorioLeituras']}">
+				<f:param name="active" value="relatorioLeituras" />
+            </h:link>
+        </li>
+
+		<li class="divider"></li>
+		
+		<li class="#{param.active == 'sobre' ? 'active' : ''}">
+			<h:link outcome="sobre" value="#{msg['menu.sobre']}">
+				<f:param name="active" value="sobre" />
+            </h:link>
+		</li>
+
+		<li class="#{param.active == 'logout' ? 'active' : ''}">
+			<h:link outcome="logout" value="#{msg['menu.logout']}">
+				<f:param name="active" value="logout" />
+            </h:link>
+		</li>
+	</ul>
+
+</ui:fragment>

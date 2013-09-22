@@ -1,0 +1,131 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/layout/template.xhtml">
+    	<ui:define name="pageTitle"><h:outputText value="Leitura" /></ui:define>
+    	
+		<ui:define name="content">
+		
+			<h:panelGroup rendered="#{!leituraMB.edit}">
+		
+				<div style="border-bottom: 1px solid #E5E5E5;">
+					<h3><h:outputText value="Leitura" />
+						<small> <h:outputText value="lista" /></small></h3>
+				</div>
+				
+				<h:form>
+					<h:dataTable value="#{leituraMB.leituras}" var="leitura" styleClass="table table-hover">
+		                
+						<h:column>
+							<f:facet name="header"><h:outputText value="Cliente" /></f:facet>
+							<h:commandLink action="#{leituraMB.editar}" title="Clique para editar.">
+								<h:outputText value="#{leitura.cliente}" converter="br.com.controleimpressoras.converter.ClienteConverter" />
+	                			<f:setPropertyActionListener target="#{leituraMB.idSelecionado}" value="#{leitura.id}" />
+	            			</h:commandLink>
+		                </h:column>
+
+			                <h:column>
+							<f:facet name="header"><h:outputText value="Impressora" /></f:facet>
+							<h:outputText value="#{leitura.impressora}" />
+		                </h:column>
+		                
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Data" /></f:facet>
+							<h:outputText value="#{leitura.data}">
+								<f:convertDateTime timeZone="#{util.timeZoneString}" pattern="dd/MM/yyyy" />
+							</h:outputText>
+		                </h:column>
+
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Tipo de Informação" /></f:facet>
+							<h:outputText value="#{leitura.tipoInformacao}" converter="br.com.controleimpressoras.converter.TipoInformacaoConverter"/>
+		                </h:column>
+
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Valor" /></f:facet>
+							<h:outputText value="#{leitura.valor}"/>
+		                </h:column>
+		                
+		                <f:facet name="footer">
+			            	<div class="btn-group">
+								<h:commandButton value="Atualizar" action="#{leituraMB.atualizar}" styleClass="btn btn-default" />
+								<h:commandButton value="Incluir" action="#{leituraMB.incluir}" styleClass="btn btn-default" />
+			                	<h:commandButton value="Início" action="#{leituraMB.pagInicio}" styleClass="btn btn-default" disabled="#{leituraMB.leituraPage == 0}"/>
+			                	<h:commandButton value="Anterior" action="#{leituraMB.pagAnterior}" styleClass="btn btn-default" disabled="#{leituraMB.leituraPage == 0}"/>
+			                	<h:commandButton value="Próximo" action="#{leituraMB.pagProximo}" styleClass="btn btn-default" disabled="#{leituraMB.leituraRows != leituraMB.leiturasSize}"/>
+			                </div>
+				        </f:facet>
+					</h:dataTable>
+				</h:form>
+				<h:messages />
+			</h:panelGroup>
+			
+			
+			<h:panelGroup rendered="#{leituraMB.edit}">
+				<div style="border-bottom: 1px solid #E5E5E5;">
+					<h3><h:outputText value="Leitura" />
+						<small> <h:outputText value="detalhe" /></small></h3>
+				</div>
+				<br/>
+				<h:form id="formLeituraEdit" styleClass="form-horizontal">
+			    	<fieldset>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Cliente" /></label>
+				    		<div class="controls">
+					    		<h:selectOneMenu value="#{leituraMB.leitura.cliente}" styleClass="btn btn-default dropdown-toggle">
+	   								<f:selectItems value="#{leituraMB.clienteSOM}" />
+	   							</h:selectOneMenu>
+				    		</div>
+				    	</div>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Impressora" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{leituraMB.leitura.impressora}" label="Impressora" required="true" styleClass="input-large">
+				    				<f:validator validatorId="br.com.controleimpressoras.validator.ImpressoraValidator" />
+				    			</h:inputText>
+				    		</div>
+				    	</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Data" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{leituraMB.leitura.data}" label="Data" required="true" styleClass="input-small">
+				    				<f:convertDateTime timeZone="#{util.timeZoneString}" pattern="dd/MM/yyyy" />
+				    			</h:inputText>
+				    		</div>
+				    	</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Tipo de Informação" /></label>
+				    		<div class="controls">
+					    		<h:selectOneMenu value="#{leituraMB.leitura.tipoInformacao}" styleClass="btn btn-default dropdown-toggle">
+	   								<f:selectItems value="#{leituraMB.tipoInformacaoSOM}" />
+	   							</h:selectOneMenu>
+				    		</div>
+				    	</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Valor" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{leituraMB.leitura.valor}" label="Valor" required="true" styleClass="input-large"/>
+				    		</div>
+				    	</div>
+			    	</fieldset>
+			    	
+			    	<div class="control-group">
+			    		<div class="controls">
+	    					<h:commandButton value="Salvar" action="#{leituraMB.salvar}" styleClass="btn btn-default"/>
+	    					<h:commandButton value="Cancelar" action="#{leituraMB.cancelar}" styleClass="btn" immediate="true"/>
+	    					<h:commandButton value="Excluir" action="#{leituraMB.remover}" rendered="#{leituraMB.leitura.id != null}" immediate="true" styleClass="btn btn-danger" onclick="return confirm('Deseja realmente excluir este registro?')"/>
+	    				</div>
+			    	</div>
+			    </h:form>
+			    
+			    <h:panelGroup layout="block" class="alert alert-error" rendered="#{facesContext.validationFailed or not empty facesContext.messageList }">
+			    	<h:messages showDetail="true" showSummary="false" />
+			    </h:panelGroup>
+			    
+			</h:panelGroup>
+			
+		</ui:define>
+    </ui:composition>
+</html>

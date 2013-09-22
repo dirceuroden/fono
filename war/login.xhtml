@@ -1,0 +1,49 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/layout/template.xhtml">
+    	<ui:define name="pageTitle"><h:outputText value="Cliente" /></ui:define>
+    	
+		<ui:define name="content">
+		
+        <h:panelGroup>
+				<div style="border-bottom: 1px solid #E5E5E5;">
+					<h3><h:outputText value="Acesso" />
+						<small> <h:outputText value="informe o login" /></small></h3>
+				</div>
+				<br/>
+				<h:form styleClass="form-horizontal">
+			    	<fieldset>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Usuário" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{loginMB.user.login}" label="Usuário" required="true" styleClass="input-large"/>
+				    		</div>
+			    		</div>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Senha" /></label>
+				    		<div class="controls">
+				    			<h:inputSecret value="#{loginMB.user.senha}" label="Senha" required="true" styleClass="input-large"/>
+				    		</div>
+				    	</div>
+			    	</fieldset>
+			    	
+			    	<div class="control-group">
+			    		<div class="controls">
+			    			<h:commandButton value="Login" action="#{loginMB.doLogin}" styleClass="btn btn-sucess"/>
+			    		</div>
+			    	</div>
+			    </h:form>
+			    
+			    <h:panelGroup layout="block" class="alert alert-error" rendered="#{facesContext.validationFailed or not empty facesContext.messageList }">
+			    	<h:messages showDetail="true" showSummary="false" />
+			    </h:panelGroup>
+			    
+			</h:panelGroup>
+
+			
+		</ui:define>
+    </ui:composition>
+</html>

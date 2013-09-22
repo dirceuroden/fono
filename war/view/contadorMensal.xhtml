@@ -1,0 +1,129 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/layout/template.xhtml">
+    	<ui:define name="pageTitle"><h:outputText value="ContadorMensal" /></ui:define>
+    	
+		<ui:define name="content">
+		
+			<h:panelGroup rendered="#{!contadorMensalMB.edit}">
+		
+				<div style="border-bottom: 1px solid #E5E5E5;">
+					<h3><h:outputText value="Contador Mensal" />
+						<small> <h:outputText value="lista" /></small></h3>
+				</div>
+				
+				<h:form>
+					<h:dataTable value="#{contadorMensalMB.contadoresMensais}" var="contadorMensal" styleClass="table table-hover">
+		                
+						<h:column>
+							<f:facet name="header"><h:outputText value="Cliente" /></f:facet>
+							<h:commandLink action="#{contadorMensalMB.editar}" title="Clique para editar.">
+								<h:outputText value="#{contadorMensal.cliente}" converter="br.com.controleimpressoras.converter.ClienteConverter" />
+	                			<f:setPropertyActionListener target="#{contadorMensalMB.idSelecionado}" value="#{contadorMensal.id}" />
+	            			</h:commandLink>
+		                </h:column>
+
+			                <h:column>
+							<f:facet name="header"><h:outputText value="Impressora" /></f:facet>
+							<h:outputText value="#{contadorMensal.impressora}" />
+		                </h:column>
+		                
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Data" /></f:facet>
+							<h:outputText value="#{contadorMensal.data}">
+								<f:convertDateTime timeZone="GMT" pattern="dd/MM/yyyy" />
+							</h:outputText>
+		                </h:column>
+
+		                <h:column>
+							<f:facet name="header"><div style="text-align: right" ><h:outputText value="Pág. Preto" /></div></f:facet>
+							<div style="text-align: right" ><h:outputText value="#{contadorMensal.pagPreto}"/></div>
+		                </h:column>
+
+		                <h:column>
+							<f:facet name="header"><div style="text-align: right" ><h:outputText value="Pág. Color" /></div></f:facet>
+							<div style="text-align: right" ><h:outputText value="#{contadorMensal.pagColor}"/></div>
+		                </h:column>
+
+						<f:facet name="footer">
+				          	<div class="btn-group">
+								<h:commandButton value="Atualizar" action="#{contadorMensalMB.atualizar}" styleClass="btn btn-default" />
+								<h:commandButton value="Incluir" action="#{contadorMensalMB.incluir}" styleClass="btn btn-default" />
+				               	<h:commandButton value="Início" action="#{contadorMensalMB.pagInicio}" styleClass="btn btn-default" disabled="#{contadorMensalMB.contadorMensalPage == 0}"/>
+				               	<h:commandButton value="Anterior" action="#{contadorMensalMB.pagAnterior}" styleClass="btn btn-default" disabled="#{contadorMensalMB.contadorMensalPage == 0}"/>
+				               	<h:commandButton value="Próximo" action="#{contadorMensalMB.pagProximo}" styleClass="btn btn-default" disabled="#{contadorMensalMB.contadorMensalRows != contadorMensalMB.contadoresMensaisSize}"/>
+				               </div>
+					    </f:facet>
+					</h:dataTable>
+				</h:form>
+				<h:messages />
+			</h:panelGroup>
+			
+			
+			<h:panelGroup rendered="#{contadorMensalMB.edit}">
+				<div style="border-bottom: 1px solid #E5E5E5;">
+					<h3><h:outputText value="ContadorMensal" />
+						<small> <h:outputText value="detalhe" /></small></h3>
+				</div>
+				<br/>
+				<h:form id="formContadorMensalEdit" styleClass="form-horizontal">
+			    	<fieldset>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Cliente" /></label>
+				    		<div class="controls">
+					    		<h:selectOneMenu value="#{contadorMensalMB.contadorMensal.cliente}" styleClass="btn btn-default dropdown-toggle">
+	   								<f:selectItems value="#{contadorMensalMB.clienteSOM}" />
+	   							</h:selectOneMenu>
+				    		</div>
+				    	</div>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Impressora" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{contadorMensalMB.contadorMensal.impressora}" label="Impressora" required="true" styleClass="input-large">
+				    				<f:validator validatorId="br.com.controleimpressoras.validator.ImpressoraValidator" />
+				    			</h:inputText>
+				    		</div>
+				    	</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Data" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{contadorMensalMB.contadorMensal.data}" label="Data" required="true" styleClass="input-small">
+				    				<f:convertDateTime timeZone="GMT" pattern="dd/MM/yyyy" />
+				    			</h:inputText>
+				    		</div>
+				    	</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Pág. Preto" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{contadorMensalMB.contadorMensal.pagPreto}" label="Pág. Preto" required="true" styleClass="input-smal"/>
+				    		</div>
+				    	</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Pág. Color" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{contadorMensalMB.contadorMensal.pagColor}" label="Pág. Color" required="true" styleClass="input-smal"/>
+				    		</div>
+				    	</div>
+			    	</fieldset>
+			    	
+			    	<div class="control-group">
+			    		<div class="controls">
+	    					<h:commandButton value="Salvar" action="#{contadorMensalMB.salvar}" styleClass="btn btn-default"/>
+	    					<h:commandButton value="Cancelar" action="#{contadorMensalMB.cancelar}" styleClass="btn" immediate="true"/>
+	    					<h:commandButton value="Excluir" action="#{contadorMensalMB.remover}" rendered="#{contadorMensalMB.contadorMensal.id != null}" immediate="true" styleClass="btn btn-danger" onclick="return confirm('Deseja realmente excluir este registro?')"/>
+	    				</div>
+			    	</div>
+			    </h:form>
+			    
+			    <h:panelGroup layout="block" class="alert alert-error" rendered="#{facesContext.validationFailed or not empty facesContext.messageList }">
+			    	<h:messages showDetail="true" showSummary="false" />
+			    </h:panelGroup>
+			    
+			</h:panelGroup>
+			
+		</ui:define>
+    </ui:composition>
+</html>

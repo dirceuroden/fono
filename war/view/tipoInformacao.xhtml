@@ -1,0 +1,106 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/layout/template.xhtml">
+    	<ui:define name="pageTitle"><h:outputText value="Tipo de Informacao" /></ui:define>
+    	
+		<ui:define name="content">
+		
+			<h:panelGroup rendered="#{!tipoInformacaoMB.edit}">
+		
+				<div style="border-bottom: 1px solid #E5E5E5;">
+					<h3><h:outputText value="Tipo de Informacao" />
+						<small> <h:outputText value="lista" /></small></h3>
+				</div>
+				
+				<h:form>
+					<h:dataTable value="#{tipoInformacaoMB.tiposInformacao}" var="tipoInformacao" styleClass="table table-hover">
+		                
+						<h:column>
+							<f:facet name="header"><h:outputText value="ID" /></f:facet>
+							<h:commandLink action="#{tipoInformacaoMB.editar}" value="#{tipoInformacao.id}" title="Clique para editar.">
+	                			<f:setPropertyActionListener target="#{tipoInformacaoMB.idSelecionado}" value="#{tipoInformacao.id}" />
+	            			</h:commandLink>
+		                </h:column>
+		                
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Descrição" /></f:facet>
+							<h:outputText value="#{tipoInformacao.descricao}" />
+		                </h:column>
+		                
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Tipo Especial" /></f:facet>
+							<h:outputText value="#{tipoInformacao.tipo}" converter="br.com.controleimpressoras.converter.TipoTipoInformacaoConverter"/>
+		                </h:column>
+					
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Tipo de Dado" /></f:facet>
+							<h:outputText value="#{tipoInformacao.tipoRetorno}" converter="br.com.controleimpressoras.converter.TipoRetornoConverter"/>
+		                </h:column>
+
+						<f:facet name="footer">
+				          	<div class="btn-group">
+								<h:commandButton action="#{tipoInformacaoMB.atualizar}" value="Atualizar" styleClass="btn btn-default" />
+								<h:commandButton action="#{tipoInformacaoMB.incluir}" value="Incluir" styleClass="btn btn-default" />
+			               </div>
+					    </f:facet>
+					</h:dataTable>
+				</h:form>
+				<h:messages />
+			</h:panelGroup>
+			
+			
+			<h:panelGroup rendered="#{tipoInformacaoMB.edit}">
+				<div style="border-bottom: 1px solid #E5E5E5;">
+					<h3><h:outputText value="Tipo de Informacao" />
+						<small> <h:outputText value="detalhe" /></small></h3>
+				</div>
+				<br/>
+				<h:form id="formTipoInformacao" styleClass="form-horizontal">
+			    	<fieldset>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Descrição" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{tipoInformacaoMB.tipoInformacao.descricao}" label="Descrição" required="true" styleClass="input-large">
+				    				<f:validateLength minimum="5" maximum="100" />
+				    			</h:inputText>
+				    		</div>
+				    	</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Tipo Especial" /></label>
+				    		<div class="controls">
+					    		<h:selectOneMenu value="#{tipoInformacaoMB.tipoInformacao.tipo}" styleClass="btn btn-default dropdown-toggle">
+	   								<f:selectItems value="#{tipoInformacaoMB.tipoSOM}" />
+	   							</h:selectOneMenu>
+				    		</div>
+				    	</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Tipo de Dado" /></label>
+				    		<div class="controls">
+					    		<h:selectOneMenu value="#{tipoInformacaoMB.tipoInformacao.tipoRetorno}" styleClass="btn btn-default dropdown-toggle">
+	   								<f:selectItems value="#{tipoInformacaoMB.tipoRetornoSOM}" />
+	   							</h:selectOneMenu>
+				    		</div>
+				    	</div>
+			    	</fieldset>
+			    	
+			    	<div class="control-group">
+			    		<div class="controls">
+			    			<h:commandButton value="Salvar" action="#{tipoInformacaoMB.salvar}" styleClass="btn btn-default"/>
+		    				<h:commandButton value="Cancelar" action="#{tipoInformacaoMB.cancelar}" styleClass="btn" immediate="true"/>
+		    				<h:commandButton value="Excluir" action="#{tipoInformacaoMB.remover}" rendered="#{tipoInformacaoMB.tipoInformacao.id != null}" immediate="true" styleClass="btn btn-danger" onclick="return confirm('Deseja realmente excluir este registro?')"/>
+			    		</div>
+			    	</div>
+			    </h:form>
+			    
+			    <h:panelGroup layout="block" class="alert alert-error" rendered="#{facesContext.validationFailed or not empty facesContext.messageList }">
+			    	<h:messages showDetail="true" showSummary="false" />
+			    </h:panelGroup>
+			    
+			</h:panelGroup>
+			
+		</ui:define>
+    </ui:composition>
+</html>

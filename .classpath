@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
+	<classpathentry kind="lib" path="/media/dirceu/745A17A15A175EE4/Codigo/controleimpressoras/controleimpressoras/war/WEB-INF/lib/el-api-2.2.jar"/>
+	<classpathentry kind="lib" path="/media/dirceu/745A17A15A175EE4/Codigo/controleimpressoras/controleimpressoras/war/WEB-INF/lib/el-impl-2.2.1-b05.jar"/>
+	<classpathentry kind="lib" path="/media/dirceu/745A17A15A175EE4/Codigo/controleimpressoras/controleimpressoras/war/WEB-INF/lib/javax.faces-2.1.12.jar"/>
+	<classpathentry kind="lib" path="/media/dirceu/745A17A15A175EE4/Codigo/controleimpressoras/controleimpressoras/war/WEB-INF/lib/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="/media/dirceu/745A17A15A175EE4/Codigo/controleimpressoras/controleimpressoras/war/WEB-INF/lib/jersey-core-1.17.1.jar"/>
+	<classpathentry kind="lib" path="/media/dirceu/745A17A15A175EE4/Codigo/controleimpressoras/controleimpressoras/war/WEB-INF/lib/jersey-server-1.17.1.jar"/>
+	<classpathentry kind="lib" path="/media/dirceu/745A17A15A175EE4/Codigo/controleimpressoras/controleimpressoras/war/WEB-INF/lib/jersey-servlet-1.17.1.jar"/>
+	<classpathentry kind="lib" path="/media/dirceu/745A17A15A175EE4/Codigo/controleimpressoras/controleimpressoras/war/WEB-INF/lib/jsr311-api-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/media/dirceu/745A17A15A175EE4/Codigo/controleimpressoras/controleimpressoras/war/WEB-INF/lib/asm-3.1.jar"/>
+	<classpathentry kind="output" path="war/WEB-INF/classes"/>
+</classpath>

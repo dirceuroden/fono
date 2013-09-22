@@ -1,0 +1,145 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/layout/template.xhtml">
+    	<ui:define name="pageTitle"><h:outputText value="Configuração de Impressora" /></ui:define>
+    	
+		<ui:define name="content">
+		
+			<h:panelGroup rendered="#{!configImpressoraMB.edit}">
+		
+				<div style="border-bottom: 1px solid #E5E5E5;">
+					<h3><h:outputText value="Configuração de Impressora" />
+						<small> <h:outputText value="lista" /></small></h3>
+				</div>
+				
+				<h:form>
+					<h:dataTable value="#{configImpressoraMB.configImpressoras}" var="configImpressora" styleClass="table table-hover">
+						<h:column>
+							<f:facet name="header"><h:outputText value="ID" /></f:facet>
+							<h:commandLink action="#{configImpressoraMB.editar}" value="#{configImpressora.id}" title="Clique para editar.">
+	                			<f:setPropertyActionListener target="#{configImpressoraMB.idSelecionado}" value="#{configImpressora.id}" />
+	            			</h:commandLink>
+		                </h:column>
+		                
+						<h:column>
+							<f:facet name="header"><h:outputText value="Modelo" /></f:facet>
+							<h:outputText value="#{configImpressora.modelo}" />
+		                </h:column>
+		                
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Fabricante" /></f:facet>
+							<h:outputText value="#{configImpressora.fabricante}" />
+		                </h:column>
+		                
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Versao do software" /></f:facet>
+							<h:outputText value="#{configImpressora.versaoSoftware}"/>
+		                </h:column>
+					</h:dataTable>
+					
+					<div class="control-group">
+						<h:commandButton action="#{configImpressoraMB.atualizar}" value="Atualizar" styleClass="btn btn-default" />
+						<h:commandButton action="#{configImpressoraMB.incluir}" value="Incluir" styleClass="btn btn-default" />
+			    	</div>
+				</h:form>
+				<h:messages />
+			</h:panelGroup>
+			
+			
+			<h:panelGroup rendered="#{configImpressoraMB.edit}">
+				<div style="border-bottom: 1px solid #E5E5E5;">
+					<h3><h:outputText value="Configuração de Impressora" />
+						<small> <h:outputText value="detalhe" /></small></h3>
+				</div>
+				<br/>
+				<h:form id="formConfigImpressora" styleClass="form-horizontal">
+			    	<fieldset>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Modelo" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{configImpressoraMB.configImpressora.modelo}" label="Modelo" required="true" styleClass="input-large"/>
+				    		</div>
+			    		</div>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Fabricante" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{configImpressoraMB.configImpressora.fabricante}" label="Fabricante" required="true" styleClass="input-large"/>
+				    		</div>
+				    	</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Versao do software" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{configImpressoraMB.configImpressora.versaoSoftware}" label="Versao do software" styleClass="input-large"/>
+				    		</div>
+				    	</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Link Contador" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{configImpressoraMB.configImpressora.linkContador}" label="Link Contador" required="true" styleClass="input-large"/>
+				    		</div>
+				    	</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Link Núm. Série" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{configImpressoraMB.configImpressora.linkSerie}" label="Link Núm. Série" styleClass="input-large"/>
+				    		</div>
+				    	</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Linha Contador Preto" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{configImpressoraMB.configImpressora.linhaPreto}" label="Linha Contador Preto" styleClass="input-small"/>
+				    		</div>
+				    	</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Coluna Contador Preto" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{configImpressoraMB.configImpressora.colunaPreto}" label="Coluna Contador Preto" styleClass="input-small"/>
+				    		</div>
+				    	</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Linha Contador Color" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{configImpressoraMB.configImpressora.linhaColor}" label="Linha Contador Color" styleClass="input-small"/>
+				    		</div>
+				    	</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Coluna Contador Color" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{configImpressoraMB.configImpressora.colunaColor}" label="Coluna Contador Color" styleClass="input-small"/>
+				    		</div>
+				    	</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Linha Núm. Série" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{configImpressoraMB.configImpressora.linhaSerie}" label="Linha Núm. Série" styleClass="input-small"/>
+				    		</div>
+				    	</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Coluna Núm. Série" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{configImpressoraMB.configImpressora.colunaSerie}" label="Coluna Núm. Série" styleClass="input-small"/>
+				    		</div>
+				    	</div>
+			    	</fieldset>
+			    	
+			    	<div class="control-group">
+			    		<div class="controls">
+			    			<h:commandButton value="Salvar" action="#{configImpressoraMB.salvar}" styleClass="btn btn-default"/>
+		    				<h:commandButton value="Cancelar" action="#{configImpressoraMB.cancelar}" styleClass="btn" immediate="true"/>
+		    				<h:commandButton value="Excluir" action="#{configImpressoraMB.remover}" rendered="#{configImpressoraMB.configImpressora.id != null}" immediate="true" styleClass="btn btn-danger" onclick="return confirm('Deseja realmente excluir este registro?')"/>
+			    		</div>
+			    	</div>
+			    </h:form>
+			    
+			    <h:panelGroup layout="block" class="alert alert-error" rendered="#{facesContext.validationFailed or not empty facesContext.messageList }">
+			    	<h:messages showDetail="true" showSummary="false" />
+			    </h:panelGroup>
+			    
+			</h:panelGroup>
+			
+		</ui:define>
+    </ui:composition>
+</html>

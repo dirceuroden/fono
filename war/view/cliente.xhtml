@@ -1,0 +1,88 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/layout/template.xhtml">
+    	<ui:define name="pageTitle"><h:outputText value="Cliente" /></ui:define>
+    	
+		<ui:define name="content">
+		
+			<h:panelGroup rendered="#{!clienteMB.edit}">
+		
+				<div style="border-bottom: 1px solid #E5E5E5;">
+					<h3><h:outputText value="Cliente" />
+						<small> <h:outputText value="lista" /></small></h3>
+				</div>
+				
+				<h:form>
+					<h:dataTable value="#{clienteMB.clientes}" var="cliente" styleClass="table table-hover">
+		                
+						<h:column>
+							<f:facet name="header"><h:outputText value="CNPJ" /></f:facet>
+							<h:commandLink action="#{clienteMB.editar}" value="#{cliente.id}" title="Clique para editar.">
+	                			<f:setPropertyActionListener target="#{clienteMB.idSelecionado}" value="#{cliente.id}" />
+	            			</h:commandLink>
+		                </h:column>
+		                
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Nome" /></f:facet>
+							<h:outputText value="#{cliente.nome}" />
+		                </h:column>
+
+						<f:facet name="footer">
+				          	<div class="btn-group">
+								<h:commandButton action="#{clienteMB.atualizar}" value="Atualizar" styleClass="btn btn-default" />
+								<h:commandButton action="#{clienteMB.incluir}" value="Incluir" styleClass="btn btn-default" />
+			               </div>
+					    </f:facet>
+					</h:dataTable>
+				</h:form>
+				<h:messages />
+			</h:panelGroup>
+			
+			
+			<h:panelGroup rendered="#{clienteMB.edit}">
+				<div style="border-bottom: 1px solid #E5E5E5;">
+					<h3><h:outputText value="Cliente" />
+						<small> <h:outputText value="detalhe" /></small></h3>
+				</div>
+				<br/>
+				<h:form id="formClienteEdit" styleClass="form-horizontal">
+			    	<fieldset>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="CNPJ" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{clienteMB.cliente.id}" label="CNPJ" required="true" styleClass="input-large">
+				    				<f:validateLength minimum="14" maximum="14" />
+				    			</h:inputText>
+				    		</div>
+			    		</div>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Nome" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{clienteMB.cliente.nome}" label="Nome" required="true" styleClass="input-large">
+				    				<f:validateLength minimum="5" maximum="100" />
+				    			</h:inputText>
+				    		</div>
+				    	</div>
+			    	</fieldset>
+			    	
+			    	<div class="control-group">
+			    		<div class="controls">
+			    			<h:commandButton value="Salvar" action="#{clienteMB.salvar}" styleClass="btn btn-default"/>
+		    				<h:commandButton value="Cancelar" action="#{clienteMB.cancelar}" styleClass="btn" immediate="true"/>
+		    				<h:commandButton value="Excluir" action="#{clienteMB.remover}" rendered="#{clienteMB.cliente.id != null}" immediate="true" styleClass="btn btn-danger" onclick="return confirm('Deseja realmente excluir este registro?')"/>
+			    		</div>
+			    	</div>
+			    </h:form>
+			    
+			    <h:panelGroup layout="block" class="alert alert-error" rendered="#{facesContext.validationFailed or not empty facesContext.messageList }">
+			    	<h:messages showDetail="true" showSummary="false" />
+			    </h:panelGroup>
+			    
+			</h:panelGroup>
+			
+		</ui:define>
+    </ui:composition>
+</html>
