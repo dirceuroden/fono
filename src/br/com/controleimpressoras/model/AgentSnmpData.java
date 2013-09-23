@@ -11,6 +11,7 @@ public class AgentSnmpData implements Serializable {
 
 	private String impressora;
 	private String ip;
+	private String template;
 	private String serialOid;
 	private String alertas;
 	private List<Informacao> informacoes;
@@ -30,6 +31,14 @@ public class AgentSnmpData implements Serializable {
 
 	public void setIp(String ip) {
 		this.ip = ip;
+	}
+
+	public String getTemplate() {
+		return template;
+	}
+
+	public void setTemplate(String template) {
+		this.template = template;
 	}
 
 	public String getSerialOid() {

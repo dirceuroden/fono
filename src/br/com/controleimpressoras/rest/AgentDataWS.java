@@ -55,23 +55,27 @@ public class AgentDataWS implements Serializable {
 				TemplateSnmp template = templateSnmpDAO.findByPK(imp.getTemplate());
 				List<Informacao> informacoes = informacaoDAO.list(imp.getTemplate());
 				List<Informacao> statusInfoList = new ArrayList<Informacao>();
-				String serialOid = "";
+				Informacao serialOidInfo = new Informacao();
 				if (informacoes != null) {
 					for (Informacao info : informacoes) {
 						TipoInformacao tipoInfo = tipoInformacaoDAO.findByPK(info.getTipoInformacao());
 						if (tipoInfo != null && tipoInfo.getTipo() != null) {
 							if (tipoInfo.getTipo().equalsIgnoreCase("N")) {
-								serialOid = info.getOid();
+								serialOidInfo = info;
 							} else if (tipoInfo.getTipo().equalsIgnoreCase("S")) {
 								statusInfoList.add(info);
 							}
 						}
 					}
 				}
+
+				informacoes.remove(serialOidInfo);
+				
 				AgentSnmpData agentSnmpData = new AgentSnmpData();
 				agentSnmpData.setImpressora(imp.getId());
 				agentSnmpData.setIp(imp.getIp());
-				agentSnmpData.setSerialOid(serialOid);
+				agentSnmpData.setTemplate(template.getDescricao());
+				agentSnmpData.setSerialOid(serialOidInfo.getOid());
 				agentSnmpData.setAlertas(template.getAlertas());
 				agentSnmpData.setInformacoes(informacoes);
 				agentSnmpData.setStatusInfo(statusInfoList);
