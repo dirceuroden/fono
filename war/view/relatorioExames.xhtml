@@ -1,0 +1,165 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://java.sun.com/jsf/ajax">
+
+    <ui:composition template="/layout/template.xhtml">
+    	<ui:define name="pageTitle"><h:outputText value="Exame" /></ui:define>
+    	
+		<ui:define name="content">
+			<h:panelGroup rendered="#{!relatorioExamesMB.edit}">
+		
+				<div style="border-bottom: 1px solid #E5E5E5;">
+					<h3><h:outputText value="Relatório de Exames" />
+						<small> <h:outputText value="lista" /></small></h3>
+				</div>
+				
+					<h:form styleClass="form-horizontal">
+					<br/>
+					<fieldset>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Data Inicial" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{relatorioExamesMB.dataInicial}" label="Data Inicial" converter="br.com.fono.converter.DataConverter" required="true" styleClass="input-large"/>
+				    		</div>
+				    	</div>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Data Final" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{relatorioExamesMB.dataFinal}" label="Data Final" converter="br.com.fono.converter.DataConverter" required="true" styleClass="input-large"/>
+				    		</div>
+				    	</div>
+			          	<div class="control-group">
+			    			<div class="controls">
+								<h:commandButton action="#{relatorioExamesMB.atualizar}" value="Atualizar" styleClass="btn btn-default" />
+			                </div>
+			            </div>
+			    	</fieldset>
+					<hr/>
+			    	
+					<h:dataTable value="#{relatorioExamesMB.exames}" var="exame" styleClass="table table-hover">
+		                
+						<h:column>
+							<f:facet name="header"><h:outputText value="Paciente" /></f:facet>
+							<h:commandLink action="#{relatorioExamesMB.editar}" title="Clique para visualizar detalhes.">
+								<h:outputText value="#{exame.cpf}" converter="br.com.fono.converter.PacienteConverter" />
+	                			<f:setPropertyActionListener target="#{relatorioExamesMB.idSelecionado}" value="#{exame.idExame}" />
+	            			</h:commandLink>
+		                </h:column>
+		                
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Data Validade" /></f:facet>
+							<h:outputText value="#{exame.dataValidade}" converter="br.com.fono.converter.DataConverter" />
+		                </h:column>
+
+						<f:facet name="footer">
+					    </f:facet>
+					</h:dataTable>
+				</h:form>
+				<h:messages />
+			</h:panelGroup>
+			
+			
+			<h:panelGroup rendered="#{relatorioExamesMB.edit}" >
+				<div style="border-bottom: 1px solid #E5E5E5;">
+					<h3><h:outputText value="Relatório de Exames" />
+						<small> <h:outputText value="detalhe" /></small></h3>
+				</div>
+				<br/>
+				<h:form id="formExameEdit" styleClass="form-horizontal">
+			    	<fieldset>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Nome Paciente" /></label>
+				    		<div class="controls">
+								<h:outputText value="#{relatorioExamesMB.exame.cpf}" converter="br.com.fono.converter.PacienteConverter" label="Paciente" styleClass="input-large"/>				    		
+							</div>
+				    	</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Fone Paciente" /></label>
+				    		<div class="controls">
+								<h:outputText value="#{relatorioExamesMB.exame.paciente.fone}" label="Fone Paciente" styleClass="input-large"/>				    		
+							</div>
+				    	</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="E-mail Paciente" /></label>
+				    		<div class="controls">
+								<h:outputText value="#{relatorioExamesMB.exame.paciente.email}" label="E-mail Paciente" styleClass="input-large"/>				    		
+							</div>
+				    	</div>
+				    	<hr/>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Cliente" /></label>
+				    		<div class="controls">
+								<h:outputText value="#{relatorioExamesMB.exame.cnpj}" converter="br.com.fono.converter.ClienteConverter" label="Paciente" styleClass="input-large"/>				    		
+				    		</div>
+				    	</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Fone Cliente" /></label>
+				    		<div class="controls">
+								<h:outputText value="#{relatorioExamesMB.exame.cliente.fone}" label="Fone Cliente" styleClass="input-large"/>				    		
+							</div>
+				    	</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="E-mail Cliente" /></label>
+				    		<div class="controls">
+								<h:outputText value="#{relatorioExamesMB.exame.cliente.email}" label="E-mail Cliente" styleClass="input-large"/>				    		
+							</div>
+				    	</div>
+				    	<hr/>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="ID" /></label>
+				    		<div class="controls">
+				    			<h:outputText value="#{relatorioExamesMB.exame.idExame}" label="ID" styleClass="input-large"/>
+				    		</div>
+			    		</div>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Método" /></label>
+				    		<div class="controls">
+					    		<h:outputText value="#{relatorioExamesMB.exame.metodo}" converter="br.com.fono.converter.MetodoConverter" label="Método" styleClass="input-large"/>
+				    		</div>
+				    	</div>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Tipo" /></label>
+				    		<div class="controls">
+					    		<h:outputText value="#{relatorioExamesMB.exame.tipo}" converter="br.com.fono.converter.TipoConverter" label="Tipo" styleClass="input-large"/>
+				    		</div>
+				    	</div>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Data Exame" /></label>
+				    		<div class="controls">
+				    			<h:outputText value="#{relatorioExamesMB.exame.dataExame}" label="Data Exame" converter="br.com.fono.converter.DataConverter" required="true" styleClass="input-large"/>
+				    		</div>
+				    	</div>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Data Validade" /></label>
+				    		<div class="controls">
+				    			<h:outputText value="#{relatorioExamesMB.exame.dataValidade}" label="Data Validade" converter="br.com.fono.converter.DataConverter" required="true" styleClass="input-large"/>
+				    		</div>
+				    	</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Valor" /></label>
+				    		<div class="controls">
+				    			<h:outputText value="#{relatorioExamesMB.exame.valor}" label="Valor" styleClass="input-large">
+				    				<f:convertNumber pattern="#0.00" />
+				    			</h:outputText>
+				    		</div>
+				    	</div>
+			    	</fieldset>
+			    	<hr/>
+			    	<div class="control-group">
+			    		<div class="controls">
+		    				<h:commandButton value="Voltar" action="#{relatorioExamesMB.cancelar}" styleClass="btn" immediate="true"/>
+			    		</div>
+			    	</div>
+			    </h:form>
+			    
+			    <h:panelGroup layout="block" class="alert alert-error" rendered="#{facesContext.validationFailed or not empty facesContext.messageList }">
+			    	<h:messages showDetail="true" showSummary="false" />
+			    </h:panelGroup>
+			    
+			</h:panelGroup>
+			
+		</ui:define>
+    </ui:composition>
+</html>

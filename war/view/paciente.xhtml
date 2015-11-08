@@ -1,0 +1,156 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/layout/template.xhtml">
+    	<ui:define name="pageTitle"><h:outputText value="Paciente" /></ui:define>
+    	
+		<ui:define name="content">
+		
+			<h:panelGroup rendered="#{!pacienteMB.edit}">
+		
+				<div style="border-bottom: 1px solid #E5E5E5;">
+					<h3><h:outputText value="Paciente" />
+						<small> <h:outputText value="lista" /></small></h3>
+				</div>
+				
+				<h:form>
+					<h:dataTable value="#{pacienteMB.pacientes}" var="paciente" styleClass="table table-hover">
+		                
+						<h:column>
+							<f:facet name="header"><h:outputText value="CPF" /></f:facet>
+							<h:commandLink action="#{pacienteMB.editar}" value="#{paciente.cpf}" title="Clique para editar.">
+	                			<f:setPropertyActionListener target="#{pacienteMB.idSelecionado}" value="#{paciente.cpf}" />
+	            			</h:commandLink>
+		                </h:column>
+		                
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Nome" /></f:facet>
+							<h:outputText value="#{paciente.nome}" />
+		                </h:column>
+
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Cliente" /></f:facet>
+							<h:outputText value="#{paciente.cnpj}" converter="br.com.fono.converter.ClienteConverter"/>
+		                </h:column>
+
+						<f:facet name="footer">
+				          	<div class="btn-group">
+								<h:commandButton action="#{pacienteMB.atualizar}" value="Atualizar" styleClass="btn btn-default" />
+								<h:commandButton action="#{pacienteMB.incluir}" value="Incluir" styleClass="btn btn-default" />
+			               </div>
+					    </f:facet>
+					</h:dataTable>
+				</h:form>
+				<h:messages />
+			</h:panelGroup>
+			
+			
+			<h:panelGroup rendered="#{pacienteMB.edit}">
+				<div style="border-bottom: 1px solid #E5E5E5;">
+					<h3><h:outputText value="Paciente" />
+						<small> <h:outputText value="detalhe" /></small></h3>
+				</div>
+				<br/>
+				<h:form id="formPacienteEdit" styleClass="form-horizontal">
+			    	<fieldset>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="CPF" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{pacienteMB.paciente.cpf}" label="CPF" required="true" styleClass="input-large">
+				    				<f:validateLength minimum="11" maximum="11" />
+				    			</h:inputText>
+				    		</div>
+			    		</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Cliente" /></label>
+				    		<div class="controls">
+					    		<h:selectOneMenu value="#{pacienteMB.paciente.cnpj}" styleClass="dropdown-toggle">
+	   								<f:selectItems value="#{pacienteMB.clienteSOM}" />
+	   							</h:selectOneMenu>
+				    		</div>
+				    	</div>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Nome" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{pacienteMB.paciente.nome}" label="Nome" required="true" styleClass="input-large">
+				    				<f:validateLength minimum="5" maximum="100" />
+				    			</h:inputText>
+				    		</div>
+				    	</div>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Data Nasc." /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{pacienteMB.paciente.dataNascimento}" label="Data Nasc." converter="br.com.fono.converter.DataConverter" required="true" styleClass="input-large"/>
+				    		</div>
+				    	</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Sexo" /></label>
+				    		<div class="controls">
+					    		<h:selectOneMenu value="#{pacienteMB.paciente.sexo}" styleClass="dropdown-toggle">
+	   								<f:selectItem itemValue="F" itemLabel="Feminino"/>
+	   								<f:selectItem itemValue="M" itemLabel="Masculino"/>
+	   							</h:selectOneMenu>
+				    		</div>
+				    	</div>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Endereço" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{pacienteMB.paciente.endereco}" label="Endereço" required="true" styleClass="input-large">
+				    				<f:validateLength minimum="5" maximum="100" />
+				    			</h:inputText>
+				    		</div>
+				    	</div>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Bairro" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{pacienteMB.paciente.bairro}" label="Bairro" required="true" styleClass="input-large">
+				    				<f:validateLength minimum="5" maximum="100" />
+				    			</h:inputText>
+				    		</div>
+				    	</div>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Cidade" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{pacienteMB.paciente.cidade}" label="Cidade" required="true" styleClass="input-large">
+				    				<f:validateLength minimum="5" maximum="100" />
+				    			</h:inputText>
+				    		</div>
+				    	</div>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Fone" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{pacienteMB.paciente.fone}" label="Fone" required="true" styleClass="input-large">
+				    				<f:validateLength minimum="5" maximum="100" />
+				    			</h:inputText>
+				    		</div>
+				    	</div>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="E-mail" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{pacienteMB.paciente.email}" label="E-mail" required="true" styleClass="input-large">
+				    				<f:validateLength minimum="5" maximum="100" />
+				    			</h:inputText>
+				    		</div>
+				    	</div>
+			    	</fieldset>
+			    	
+			    	<div class="control-group">
+			    		<div class="controls">
+			    			<h:commandButton value="Salvar" action="#{pacienteMB.salvar}" styleClass="btn btn-default"/>
+		    				<h:commandButton value="Cancelar" action="#{pacienteMB.cancelar}" styleClass="btn" immediate="true"/>
+		    				<h:commandButton value="Excluir" action="#{pacienteMB.remover}" rendered="#{pacienteMB.paciente.cnpj != null}" immediate="true" styleClass="btn btn-danger" onclick="return confirm('Deseja realmente excluir este registro?')"/>
+			    		</div>
+			    	</div>
+			    </h:form>
+			    
+			    <h:panelGroup layout="block" class="alert alert-error" rendered="#{facesContext.validationFailed or not empty facesContext.messageList }">
+			    	<h:messages showDetail="true" showSummary="false" />
+			    </h:panelGroup>
+			    
+			</h:panelGroup>
+			
+		</ui:define>
+    </ui:composition>
+</html>

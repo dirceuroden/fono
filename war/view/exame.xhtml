@@ -1,0 +1,141 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://java.sun.com/jsf/ajax">
+
+    <ui:composition template="/layout/template.xhtml">
+    	<ui:define name="pageTitle"><h:outputText value="Exame" /></ui:define>
+    	
+		<ui:define name="content">
+		
+			<h:panelGroup rendered="#{!exameMB.edit}">
+		
+				<div style="border-bottom: 1px solid #E5E5E5;">
+					<h3><h:outputText value="Exame" />
+						<small> <h:outputText value="lista" /></small></h3>
+				</div>
+				
+				<h:form>
+					<h:dataTable value="#{exameMB.exames}" var="exame" styleClass="table table-hover">
+		                
+						<h:column>
+							<f:facet name="header"><h:outputText value="ID" /></f:facet>
+							<h:commandLink action="#{exameMB.editar}" value="#{exame.idExame}" title="Clique para editar.">
+	                			<f:setPropertyActionListener target="#{exameMB.idSelecionado}" value="#{exame.idExame}" />
+	            			</h:commandLink>
+		                </h:column>
+		                
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Paciente" /></f:facet>
+							<h:outputText value="#{exame.cpf}" converter="br.com.fono.converter.PacienteConverter"/>
+		                </h:column>
+
+		                <h:column>
+							<f:facet name="header"><h:outputText value="Data Exame" /></f:facet>
+							<h:outputText value="#{exame.dataExame}" converter="br.com.fono.converter.DataConverter" />
+		                </h:column>
+
+						<f:facet name="footer">
+				          	<div class="btn-group">
+								<h:commandButton action="#{exameMB.atualizar}" value="Atualizar" styleClass="btn btn-default" />
+								<h:commandButton action="#{exameMB.incluir}" value="Incluir" styleClass="btn btn-default" />
+			               </div>
+					    </f:facet>
+					</h:dataTable>
+				</h:form>
+				<h:messages />
+			</h:panelGroup>
+			
+			
+			<h:panelGroup rendered="#{exameMB.edit}" >
+				<div style="border-bottom: 1px solid #E5E5E5;">
+					<h3><h:outputText value="Exame" />
+						<small> <h:outputText value="detalhe" /></small></h3>
+				</div>
+				<br/>
+				<h:form id="formExameEdit" styleClass="form-horizontal">
+			    	<fieldset>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="ID" /></label>
+				    		<div class="controls">
+				    			<h:outputText value="#{exameMB.exame.idExame}" label="ID" styleClass="input-large"/>
+				    		</div>
+			    		</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Paciente" /></label>
+				    		<div class="controls">
+					    		<h:selectOneMenu value="#{exameMB.exame.cpf}" required="true" styleClass="dropdown-toggle">
+	   								<f:selectItems value="#{exameMB.pacienteSOM}" />
+	   								<f:ajax event="change" execute="@this" render="formExameEdit:cliente" listener="#{exameMB.atualizaCliente}"/>
+	   							</h:selectOneMenu>
+				    		</div>
+				    	</div>
+				    	<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Cliente" /></label>
+				    		<div class="controls">
+					    		<h:selectOneMenu value="#{exameMB.exame.cnpj}" id="cliente" styleClass="dropdown-toggle">
+	   								<f:selectItems value="#{exameMB.clienteSOM}" />
+	   							</h:selectOneMenu>
+				    		</div>
+				    	</div>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Método" /></label>
+				    		<div class="controls">
+					    		<h:selectOneMenu value="#{exameMB.exame.metodo}" required="true" styleClass="dropdown-toggle">
+					    			<f:selectItem itemLabel=""/>
+	   								<f:selectItem itemValue="N" itemLabel="Normal"/>
+	   							</h:selectOneMenu>
+				    		</div>
+				    	</div>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Tipo" /></label>
+				    		<div class="controls">
+					    		<h:selectOneMenu value="#{exameMB.exame.tipo}" required="true" styleClass="dropdown-toggle">
+	   								<f:selectItem itemLabel=""/>
+	   								<f:selectItem itemValue="A" itemLabel="Admissional"/>
+	   								<f:selectItem itemValue="P" itemLabel="Periódico"/>
+	   								<f:selectItem itemValue="D" itemLabel="Demissional"/>
+	   							</h:selectOneMenu>
+				    		</div>
+				    	</div>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Data Exame" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{exameMB.exame.dataExame}" label="Data Exame" converter="br.com.fono.converter.DataConverter" required="true" styleClass="input-large"/>
+				    		</div>
+				    	</div>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Data Validade" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{exameMB.exame.dataValidade}" label="Data Validade" converter="br.com.fono.converter.DataConverter" required="true" styleClass="input-large"/>
+				    		</div>
+				    	</div>
+			    		<div class="control-group">
+				    		<label class="control-label"><h:outputText value="Valor" /></label>
+				    		<div class="controls">
+				    			<h:inputText value="#{exameMB.exame.valor}" label="Valor" required="true" styleClass="input-large">
+				    				<f:convertNumber pattern="#0.00" />
+				    			</h:inputText>
+				    		</div>
+				    	</div>
+			    	</fieldset>
+			    	
+			    	<div class="control-group">
+			    		<div class="controls">
+			    			<h:commandButton value="Salvar" action="#{exameMB.salvar}" styleClass="btn btn-default"/>
+		    				<h:commandButton value="Cancelar" action="#{exameMB.cancelar}" styleClass="btn" immediate="true"/>
+		    				<h:commandButton value="Excluir" action="#{exameMB.remover}" rendered="#{exameMB.exame.idExame != null}" immediate="true" styleClass="btn btn-danger" onclick="return confirm('Deseja realmente excluir este registro?')"/>
+			    		</div>
+			    	</div>
+			    </h:form>
+			    
+			    <h:panelGroup layout="block" class="alert alert-error" rendered="#{facesContext.validationFailed or not empty facesContext.messageList }">
+			    	<h:messages showDetail="true" showSummary="false" />
+			    </h:panelGroup>
+			    
+			</h:panelGroup>
+			
+		</ui:define>
+    </ui:composition>
+</html>
