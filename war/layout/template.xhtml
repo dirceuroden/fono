@@ -15,7 +15,7 @@
         <ui:insert name="meta"></ui:insert>
         
         <title>
-            <h:outputText value="SGI - Sistema de Gerenciamento de Impressoras" /> - <ui:insert name="pageTitle"></ui:insert>
+            <h:outputText value="Sistema de Controle de Exames" /> - <ui:insert name="pageTitle"></ui:insert>
         </title>
     </h:head>
 
@@ -33,7 +33,7 @@
 	        		<div class="span3"/>
 	        	</h:panelGroup>
 
-        	    <h:panelGroup rendered="#{loginMB.loggedIn}">
+        	    <h:panelGroup rendered="#{loginMB.menuVisivel}">
 	        		<div class="well span3">
 	        			<ui:insert name="sidebar"><ui:include src="../view/menu.xhtml" /></ui:insert>
 	        		</div>

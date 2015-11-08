@@ -23,14 +23,6 @@
 		<param-value>.xhtml</param-value>
 	</context-param>
 
-	<!-- Listener usado na inicializacao da aplicacao para configurar entidades 
-		do Objectify. <listener> <listener-class>br.com.controleimpressoras.config.ConfigStartup</listener-class> 
-		</listener> -->
-
-	<!-- Setup do Objectify <filter> <filter-name>ObjectifyFilter</filter-name> 
-		<filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class> </filter> 
-		<filter-mapping> <filter-name>ObjectifyFilter</filter-name> <url-pattern>/*</url-pattern> 
-		</filter-mapping> -->
 	<!-- Controle de thread eh realizado pelo App Engine, necessario desabilitar 
 		no JSF. -->
 	<context-param>
@@ -45,7 +37,7 @@
 			Suppresses the If Modified Since header until GAE bug 8145 is fixed.
 		</description>
 		<filter-name>GAEBug8145WorkAround</filter-name>
-		<filter-class>br.com.controleimpressoras.config.HttpIfModifiedSinceFix
+		<filter-class>br.com.fono.config.HttpIfModifiedSinceFix
 		</filter-class>
 	</filter>
 	<filter-mapping>
@@ -56,7 +48,7 @@
 	<!-- Login filter -->
 	<filter>
 		<filter-name>LoginFilter</filter-name>
-		<filter-class>br.com.controleimpressoras.LoginFilter</filter-class>
+		<filter-class>br.com.fono.LoginFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>LoginFilter</filter-name>
@@ -64,25 +56,28 @@
 	</filter-mapping>
 
 
-
-
+	<!-- Appstats config -->
+	<filter>
+        <filter-name>appstats</filter-name>
+        <filter-class>com.google.appengine.tools.appstats.AppstatsFilter</filter-class>
+        <init-param>
+            <param-name>logMessage</param-name>
+            <param-value>Appstats available: /appstats/details?time={ID}</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>appstats</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 	<servlet>
-		<servlet-name>Jersey REST Service</servlet-name>
-		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer
-		</servlet-class>
-		<init-param>
-			<param-name>com.sun.jersey.config.property.packages</param-name>
-			<param-value>br.com.controleimpressoras.rest</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Jersey REST Service</servlet-name>
-		<url-pattern>/rest/*</url-pattern>
-	</servlet-mapping>
-
-
-
+        <servlet-name>appstats</servlet-name>
+        <servlet-class>com.google.appengine.tools.appstats.AppstatsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>appstats</servlet-name>
+        <url-pattern>/appstats/*</url-pattern>
+    </servlet-mapping>
+    
 
 
 	<!-- Front Controller do JSF. -->

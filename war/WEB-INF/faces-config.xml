@@ -19,25 +19,17 @@
 
 	<!-- Configura o PhaseListener utilizado para forcar a serializacao da sessao no App Engine.--> 
 	<lifecycle>
-		<phase-listener>br.com.controleimpressoras.config.SessionSerializationPhaseListener</phase-listener>
+		<phase-listener>br.com.fono.config.SessionSerializationPhaseListener</phase-listener>
 	</lifecycle>
 
 	<!-- Configura o valor do menu ativo -->
 	<lifecycle>
-		<phase-listener>br.com.controleimpressoras.SetMenuAtivoPhaseListener</phase-listener>
+		<phase-listener>br.com.fono.SetMenuAtivoPhaseListener</phase-listener>
 	</lifecycle>
 		
 	
 	
 	<!-- Define a navegacao global para a pagina com a lista de mercadorias. -->
-	<navigation-rule>
-		<navigation-case>
-			<from-outcome>mercadoria</from-outcome>
-			<to-view-id>/view/mercadoria.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
-	
 	<navigation-rule>
 		<navigation-case>
 			<from-outcome>cliente</from-outcome>
@@ -48,48 +40,32 @@
 	
 	<navigation-rule>
 		<navigation-case>
-			<from-outcome>impressora</from-outcome>
-			<to-view-id>/view/impressora.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
-
-	<navigation-rule>
-		<navigation-case>
-			<from-outcome>configImpressora</from-outcome>
-			<to-view-id>/view/configImpressora.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
-		
-	<navigation-rule>
-		<navigation-case>
-			<from-outcome>leitura</from-outcome>
-			<to-view-id>/view/leitura.xhtml</to-view-id>
+			<from-outcome>paciente</from-outcome>
+			<to-view-id>/view/paciente.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 	
 	<navigation-rule>
 		<navigation-case>
-			<from-outcome>resumoCliente</from-outcome>
-			<to-view-id>/view/resumoCliente.xhtml</to-view-id>
+			<from-outcome>exame</from-outcome>
+			<to-view-id>/view/exame.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 	
 	<navigation-rule>
 		<navigation-case>
-			<from-outcome>historicoAlerta</from-outcome>
-			<to-view-id>/view/historicoAlerta.xhtml</to-view-id>
+			<from-outcome>relatorioExames</from-outcome>
+			<to-view-id>/view/relatorioExames.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
 	
 	<navigation-rule>
 		<navigation-case>
-			<from-outcome>relatorioLeituras</from-outcome>
-			<to-view-id>/view/relatorioLeituras.xhtml</to-view-id>
+			<from-outcome>usuario</from-outcome>
+			<to-view-id>/view/usuario.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -102,54 +78,6 @@
 		</navigation-case>
 	</navigation-rule>
 
-	<navigation-rule>
-		<navigation-case>
-			<from-outcome>tipoInformacao</from-outcome>
-			<to-view-id>/view/tipoInformacao.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
-	
-	<navigation-rule>
-		<navigation-case>
-			<from-outcome>templateSnmp</from-outcome>
-			<to-view-id>/view/templateSnmp.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
-
-	<navigation-rule>
-		<navigation-case>
-			<from-outcome>contadorMensal</from-outcome>
-			<to-view-id>/view/contadorMensal.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
-			
-	<navigation-rule>
-		<navigation-case>
-			<from-outcome>contador</from-outcome>
-			<to-view-id>/view/contador.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
-			
-	<navigation-rule>
-		<navigation-case>
-			<from-outcome>status</from-outcome>
-			<to-view-id>/view/status.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
-			
-	<navigation-rule>
-		<navigation-case>
-			<from-outcome>alerta</from-outcome>
-			<to-view-id>/view/alerta.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
-	
 	<navigation-rule>
 		<navigation-case>
 			<from-outcome>logout</from-outcome>

@@ -9,10 +9,9 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>Hello App Engine</title>
   </head>
 
   <body>
-    <% response.sendRedirect("view/alerta.jsf"); %>
+    <% response.sendRedirect("view/sobre.jsf"); %>
   </body>
 </html>

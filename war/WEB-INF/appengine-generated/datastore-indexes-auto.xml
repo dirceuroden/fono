@@ -1,31 +1,4 @@
-<!-- Indices written at Sun, 22 Sep 2013 00:34:31 BRT -->
+<!-- Indices written at Sun, 8 Nov 2015 19:12:50 BRST -->
 
-<datastore-indexes>
+<datastore-indexes/>
 
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="Contador" ancestor="false" source="auto">
-        <property name="cliente" direction="asc"/>
-        <property name="data" direction="asc"/>
-    </datastore-index>
-
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="Contador" ancestor="false" source="auto">
-        <property name="impressora" direction="asc"/>
-        <property name="data" direction="asc"/>
-    </datastore-index>
-
-    <!-- Used 2 times in query history -->
-    <datastore-index kind="Contador" ancestor="false" source="auto">
-        <property name="impressora" direction="asc"/>
-        <property name="data" direction="desc"/>
-        <property name="pagPreto" direction="desc"/>
-        <property name="pagColor" direction="desc"/>
-    </datastore-index>
-
-    <!-- Used 2 times in query history -->
-    <datastore-index kind="Impressora" ancestor="false" source="auto">
-        <property name="cliente" direction="asc"/>
-        <property name="template" direction="asc"/>
-    </datastore-index>
-
-</datastore-indexes>
