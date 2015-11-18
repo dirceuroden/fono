@@ -48,11 +48,14 @@ public class ExameDAO implements Serializable {
 		try {
 			List<Exame> result = (List<Exame>) q.execute();
 			for (Exame e : result) {
-				if ((e.getDataValidade().after(dataInicial) || e.getDataValidade().equals(dataInicial)) && 
-						(e.getDataValidade().before(dataFinal) || e.getDataValidade().equals(dataFinal))) {
+				if ((e.getDataValidade() != null &&
+						(e.getDataValidade().after(dataInicial) || e.getDataValidade().equals(dataInicial)) && 
+						(e.getDataValidade().before(dataFinal) || e.getDataValidade().equals(dataFinal)))) {
 					exames.add(e);
 				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			pm.close();
 		}
@@ -65,6 +68,7 @@ public class ExameDAO implements Serializable {
 			Exame c = pm.getObjectById(Exame.class, exame.getCnpj());
 			pm.deletePersistent(c);
 		} catch (JDOObjectNotFoundException ex) {
+			ex.printStackTrace();
 		} finally {
 			pm.close();
 		}

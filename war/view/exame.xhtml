@@ -84,7 +84,8 @@
 				    		<div class="controls">
 					    		<h:selectOneMenu value="#{exameMB.exame.metodo}" required="true" styleClass="dropdown-toggle">
 					    			<f:selectItem itemLabel=""/>
-	   								<f:selectItem itemValue="N" itemLabel="Normal"/>
+	   								<f:selectItem itemValue="A" itemLabel="Via Aérea"/>
+	   								<f:selectItem itemValue="O" itemLabel="Via Óssea"/>
 	   							</h:selectOneMenu>
 				    		</div>
 				    	</div>
@@ -94,8 +95,12 @@
 					    		<h:selectOneMenu value="#{exameMB.exame.tipo}" required="true" styleClass="dropdown-toggle">
 	   								<f:selectItem itemLabel=""/>
 	   								<f:selectItem itemValue="A" itemLabel="Admissional"/>
+	   								<f:selectItem itemValue="S" itemLabel="Semestral"/>
 	   								<f:selectItem itemValue="P" itemLabel="Periódico"/>
 	   								<f:selectItem itemValue="D" itemLabel="Demissional"/>
+	   								<f:selectItem itemValue="T" itemLabel="Troca de Função"/>
+	   								<f:selectItem itemValue="R" itemLabel="Retorno ao trabalho"/>
+	   								<f:ajax event="change" execute="@this" render="formExameEdit:dataValidade" listener="#{exameMB.atualizaValidade}"/>
 	   							</h:selectOneMenu>
 				    		</div>
 				    	</div>
@@ -108,7 +113,7 @@
 			    		<div class="control-group">
 				    		<label class="control-label"><h:outputText value="Data Validade" /></label>
 				    		<div class="controls">
-				    			<h:inputText value="#{exameMB.exame.dataValidade}" label="Data Validade" converter="br.com.fono.converter.DataConverter" required="true" styleClass="input-large"/>
+				    			<h:inputText id="dataValidade" value="#{exameMB.exame.dataValidade}" label="Data Validade" converter="br.com.fono.converter.DataConverter" styleClass="input-large"/>
 				    		</div>
 				    	</div>
 			    		<div class="control-group">

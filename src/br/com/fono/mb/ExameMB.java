@@ -74,7 +74,6 @@ public class ExameMB extends AbstractFacesBean implements Serializable {
 		
 		exame = new Exame();
 		exame.setDataExame(Util.getDataAtual());
-		exame.setDataValidade(cal.getTime());
 		edit = true;
 	}
 	
@@ -125,6 +124,24 @@ public class ExameMB extends AbstractFacesBean implements Serializable {
 				Paciente p = pacienteDAO.findByPK(exame.getCpf());
 				exame.setCnpj(p.getCnpj());
 			}
+		}
+	}
+	
+	public void atualizaValidade() {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(Util.getDataAtual());
+		
+		if (exame.getTipo().equals("A") || 
+				exame.getTipo().equals("S")) {
+			cal.add(Calendar.MONTH, 6);
+			exame.setDataValidade(cal.getTime());
+		} else if (exame.getTipo().equals("P") ||
+				exame.getTipo().equals("T") ||
+				exame.getTipo().equals("R")) {
+			cal.add(Calendar.YEAR, 1);
+			exame.setDataValidade(cal.getTime());
+		} else {
+			exame.setDataValidade(null);
 		}
 	}
 	

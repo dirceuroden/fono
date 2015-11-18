@@ -2,7 +2,11 @@ package br.com.fono.mb;
 
 import static javax.faces.context.FacesContext.getCurrentInstance;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -10,6 +14,8 @@ import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
@@ -45,11 +51,14 @@ public class RelatorioExamesMB extends AbstractFacesBean implements Serializable
 	
 	private boolean edit;
 	
+	private SimpleDateFormat sdf;
+	
 	@PostConstruct
 	public void init() {
 		exameDAO = new ExameDAO();
 		pacienteDAO = new PacienteDAO();
 		clienteDAO = new ClienteDAO();
+		sdf = new SimpleDateFormat("dd/MM/yyyy");
 		atualizar();
 	}
 	
@@ -82,6 +91,52 @@ public class RelatorioExamesMB extends AbstractFacesBean implements Serializable
 		erase("formExameEdit");
 		edit = false;
 	}
+	
+	public void download() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("\"CPF Paciente\";\"Nome paciente\";\"Sexo\";\"Cliente\";\"Cidade\";\"Metodo\";\"Tipo\";\"Fone Paciente\";\"E-mail Paciente\";\"Data Exame\";\"Data Validade\";\"Valor\"\n");
+		
+		for (Exame e : exames) {
+			Paciente p = pacienteDAO.findByPK(e.getCpf());
+			Cliente c = clienteDAO.findByPK(e.getCnpj());
+			
+			sb.append("\"").append(e.getCpf()).append("\";");
+			sb.append("\"").append(p.getNome()).append("\";");
+			sb.append("\"").append(p.getSexo()).append("\";");
+			sb.append("\"").append(c.getNome()).append("\";");
+			sb.append("\"").append(c.getCidade()).append("\";");
+			sb.append("\"").append(e.getMetodo()).append("\";");
+			sb.append("\"").append(e.getTipo()).append("\";");
+			sb.append("\"").append(p.getFone()).append("\";");
+			sb.append("\"").append(p.getEmail()).append("\";");
+			sb.append("\"").append(sdf.format(e.getDataExame())).append("\";");
+			sb.append("\"").append(sdf.format(e.getDataValidade())).append("\";");
+			sb.append("\"").append(e.getValor()).append("\"\n");
+		}
+		
+		try {
+	        String filename = "dados.csv";
+
+	        FacesContext fc = getFacesContext();
+	        HttpServletResponse response = (HttpServletResponse) fc.getExternalContext().getResponse();
+
+	        response.reset();
+	        response.setContentType("text/comma-separated-values");
+	        response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+
+	        OutputStream output = response.getOutputStream();
+	        output.write(sb.toString().getBytes());
+	        output.flush();
+	        output.close();
+
+	        fc.responseComplete();
+	    } catch (IOException e) {
+	    	e.printStackTrace();
+			addMessage("Erro ao gerar arquivo: ", e.getMessage());
+	    }
+	}
+	
+
 
 	public Exame getExame() {
 		return exame;

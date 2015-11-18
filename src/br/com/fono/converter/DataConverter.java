@@ -20,6 +20,7 @@ public class DataConverter implements Converter {
 	
 	@Override
 	public Object getAsObject(FacesContext arg0, UIComponent arg1, String value) {
+		if (value == null || value.length() == 0) return null;
 		Date data = null;
 		try {
 			data = sdf.parse(value);
@@ -34,6 +35,7 @@ public class DataConverter implements Converter {
 
 	@Override
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object obj) {
+		if (obj == null) return null;
 		return sdf.format((Date) obj);
 	}
 

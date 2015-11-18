@@ -16,10 +16,10 @@ public class MetodoConverter implements Converter {
 	@Override
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object obj) {
 		String value = "";
-		if (obj.toString().equalsIgnoreCase("N")) {
-			value = "Normal";
-		} else if (obj.toString().equalsIgnoreCase("XXX")) {
-			value = "XXX";
+		if (obj.toString().equalsIgnoreCase("A")) {
+			value = "Via Aérea";
+		} else if (obj.toString().equalsIgnoreCase("O")) {
+			value = "Via Óssea";
 		}
 		return value;
 	}

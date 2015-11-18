@@ -17,12 +17,18 @@ public class TipoConverter implements Converter {
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object obj) {
 		String value = "";
 		if (obj.toString().equalsIgnoreCase("A")) {
-			value = "Admissional";
-		} else if (obj.toString().equalsIgnoreCase("P")) {
-			value = "Periódico";
-		} else if (obj.toString().equalsIgnoreCase("D")) {
-			value = "Demissional";
-		}
+            value = "Admissional";
+        } else if (obj.toString().equalsIgnoreCase("S")) {
+            value = "Semestral";
+        } else if (obj.toString().equalsIgnoreCase("P")) {
+            value = "Periódico";
+        } else if (obj.toString().equalsIgnoreCase("D")) {
+            value = "Demissional";
+        } else if (obj.toString().equalsIgnoreCase("T")) {
+            value = "Troca de Função";
+        } else if (obj.toString().equalsIgnoreCase("R")) {
+            value = "Retorno ao trabalho";
+        }
 		return value;
 	}
 
