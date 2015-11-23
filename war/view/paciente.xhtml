@@ -58,9 +58,7 @@
 			    		<div class="control-group">
 				    		<label class="control-label"><h:outputText value="CPF" /></label>
 				    		<div class="controls">
-				    			<h:inputText value="#{pacienteMB.paciente.cpf}" label="CPF" required="true" styleClass="input-large">
-				    				<f:validateLength minimum="11" maximum="11" />
-				    			</h:inputText>
+				    			<h:inputText value="#{pacienteMB.paciente.cpf}" label="CPF" required="true" validator="br.com.fono.validator.CpfValidator" styleClass="input-large"/>
 				    		</div>
 			    		</div>
 				    	<div class="control-group">

@@ -1,11 +1,8 @@
 package br.com.fono.mb;
 
-import static javax.faces.context.FacesContext.getCurrentInstance;
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
@@ -38,6 +35,8 @@ public class PacienteMB extends AbstractFacesBean implements Serializable {
 	
 	private boolean edit;
 	
+	private boolean novo;
+	
 	@PostConstruct
 	public void init() {
 		pacienteDAO = new PacienteDAO();
@@ -53,6 +52,7 @@ public class PacienteMB extends AbstractFacesBean implements Serializable {
 	
 	public void incluir(){
 		paciente = new Paciente();
+		novo = true;
 		edit = true;
 	}
 	
@@ -60,25 +60,39 @@ public class PacienteMB extends AbstractFacesBean implements Serializable {
 		try {
 			paciente = pacienteDAO.findByPK(idSelecionado);
 		} catch(Exception ex) {
-			addMessage("Erro ao editar paciente: ", ex.getMessage());
+			error("Erro ao editar paciente: " + ex.getMessage());
 		}
+		novo = false;
 		edit = true;
 	}
 
 	public void salvar() {
 		try {
-			pacienteDAO.save(paciente);
+			if (novo) {
+				Paciente p = pacienteDAO.findByPK(paciente.getCpf());
+				if (p != null) {
+					error("Erro ao salvar paciente: CPF já está cadastrado.");
+					edit = true;
+				} else {
+					pacienteDAO.save(paciente);
+					novo = false;
+					edit = false;
+				}
+			} else {
+				pacienteDAO.save(paciente);
+				novo = false;
+				edit = false;
+			}
 		} catch(Exception ex) {
-			addMessage("Erro ao salvar paciente: ", ex.getMessage());
+			error("Erro ao salvar paciente: " + ex.getMessage());
 		}
-		edit = false;
 	}
 	
 	public void atualizar() {
 		try {
 			pacientes = pacienteDAO.listAll();
 		} catch(Exception ex) {
-			addMessage("Erro ao listar pacientes: ", ex.getMessage());
+			error("Erro ao listar pacientes: " + ex.getMessage());
 		}
 		edit = false;
 	}
@@ -87,7 +101,7 @@ public class PacienteMB extends AbstractFacesBean implements Serializable {
 		try {
 			pacienteDAO.remove(paciente);
 		} catch(Exception ex) {
-			addMessage("Erro ao remover paciente: ", ex.getMessage());
+			error("Erro ao remover paciente: " + ex.getMessage());
 		}
 		edit = false;
 	}
@@ -133,13 +147,4 @@ public class PacienteMB extends AbstractFacesBean implements Serializable {
 		return clienteSOM;
 	}
 
-	private String getMessageFromI18N(String key) {
-		ResourceBundle bundle = ResourceBundle.getBundle("messages_labels", getCurrentInstance().getViewRoot().getLocale());
-		return bundle.getString(key);
-	}
-	
-	private void addMessage(String summary, String detail) {
-		//getCurrentInstance().addMessage(null, new FacesMessage(summary, summary.concat("<br/>").concat(detail)));
-	}
-	
 }

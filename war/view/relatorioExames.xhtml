@@ -19,20 +19,20 @@
 					<br/>
 					<fieldset>
 			    		<div class="control-group">
-				    		<label class="control-label"><h:outputText value="Data Inicial" /></label>
+				    		<label class="control-label"><h:outputText value="Data Inicial dos Vencimentos" /></label>
 				    		<div class="controls">
-				    			<h:inputText value="#{relatorioExamesMB.dataInicial}" label="Data Inicial" converter="br.com.fono.converter.DataConverter" required="true" styleClass="input-large"/>
+				    			<h:inputText value="#{relatorioExamesMB.dataInicial}" label="Data Inicial dos Vencimentos" converter="br.com.fono.converter.DataConverter" required="true" styleClass="input-large"/>
 				    		</div>
 				    	</div>
 			    		<div class="control-group">
-				    		<label class="control-label"><h:outputText value="Data Final" /></label>
+				    		<label class="control-label"><h:outputText value="Data Final dos Vencimentos" /></label>
 				    		<div class="controls">
-				    			<h:inputText value="#{relatorioExamesMB.dataFinal}" label="Data Final" converter="br.com.fono.converter.DataConverter" required="true" styleClass="input-large"/>
+				    			<h:inputText value="#{relatorioExamesMB.dataFinal}" label="Data Final dos Vencimentos" converter="br.com.fono.converter.DataConverter" required="true" styleClass="input-large"/>
 				    		</div>
 				    	</div>
 			          	<div class="control-group">
 			    			<div class="controls">
-								<h:commandButton action="#{relatorioExamesMB.atualizar}" value="Atualizar" styleClass="btn btn-default" />
+								<h:commandButton action="#{relatorioExamesMB.atualizar}" value="Gerar" styleClass="btn btn-default" />
 			                </div>
 			            </div>
 			    	</fieldset>

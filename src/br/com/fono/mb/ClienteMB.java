@@ -1,13 +1,9 @@
 package br.com.fono.mb;
 
-import static javax.faces.context.FacesContext.getCurrentInstance;
-
 import java.io.Serializable;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -31,6 +27,8 @@ public class ClienteMB extends AbstractFacesBean implements Serializable {
 	
 	private boolean edit;
 	
+	private boolean novo;
+	
 	@PostConstruct
 	public void init() {
 		clienteDAO = new ClienteDAO();
@@ -39,6 +37,7 @@ public class ClienteMB extends AbstractFacesBean implements Serializable {
 	
 	public void incluir(){
 		cliente = new Cliente();
+		novo = true;
 		edit = true;
 	}
 	
@@ -46,25 +45,39 @@ public class ClienteMB extends AbstractFacesBean implements Serializable {
 		try {
 			cliente = clienteDAO.findByPK(idSelecionado);
 		} catch(Exception ex) {
-			addMessage("Erro ao editar cliente: ", ex.getMessage());
+			error("Erro ao editar cliente: " + ex.getMessage());
 		}
+		novo = false;
 		edit = true;
 	}
 
 	public void salvar() {
 		try {
-			clienteDAO.save(cliente);
+			if (novo) {
+				Cliente c = clienteDAO.findByPK(cliente.getCnpj());
+				if (c != null) {
+					error("Erro ao salvar paciente: CNPJ já está cadastrado.");
+					edit = true;
+				} else {
+					clienteDAO.save(cliente);
+					novo = false;
+					edit = false;
+				}
+			} else {
+				clienteDAO.save(cliente);
+				novo = false;
+				edit = false;
+			}
 		} catch(Exception ex) {
-			addMessage("Erro ao salvar cliente: ", ex.getMessage());
+			error("Erro ao salvar cliente: " + ex.getMessage());
 		}
-		edit = false;
 	}
 	
 	public void atualizar() {
 		try {
 			clientes = clienteDAO.listAll();
 		} catch(Exception ex) {
-			addMessage("Erro ao listar clientes: ", ex.getMessage());
+			error("Erro ao listar clientes: " + ex.getMessage());
 		}
 		edit = false;
 	}
@@ -73,7 +86,7 @@ public class ClienteMB extends AbstractFacesBean implements Serializable {
 		try {
 			clienteDAO.remove(cliente);
 		} catch(Exception ex) {
-			addMessage("Erro ao remover cliente: ", ex.getMessage());
+			error("Erro ao remover cliente: " + ex.getMessage());
 		}
 		edit = false;
 	}
@@ -114,14 +127,4 @@ public class ClienteMB extends AbstractFacesBean implements Serializable {
 	public void setEdit(boolean edit) {
 		this.edit = edit;
 	}
-
-	private String getMessageFromI18N(String key) {
-		ResourceBundle bundle = ResourceBundle.getBundle("messages_labels", getCurrentInstance().getViewRoot().getLocale());
-		return bundle.getString(key);
-	}
-	
-	private void addMessage(String summary, String detail) {
-		//getCurrentInstance().addMessage(null, new FacesMessage(summary, summary.concat("<br/>").concat(detail)));
-	}
-	
 }

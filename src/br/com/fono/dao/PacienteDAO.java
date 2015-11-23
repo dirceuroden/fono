@@ -41,9 +41,10 @@ public class PacienteDAO implements Serializable {
 	public void remove(Paciente paciente) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
-			Paciente c = pm.getObjectById(Paciente.class, paciente.getCnpj());
+			Paciente c = pm.getObjectById(Paciente.class, paciente.getCpf());
 			pm.deletePersistent(c);
 		} catch (JDOObjectNotFoundException ex) {
+			ex.printStackTrace();
 		} finally {
 			pm.close();
 		}

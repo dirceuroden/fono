@@ -63,9 +63,7 @@
 			    		<div class="control-group">
 				    		<label class="control-label"><h:outputText value="CNPJ" /></label>
 				    		<div class="controls">
-				    			<h:inputText value="#{clienteMB.cliente.cnpj}" label="CNPJ" required="true" styleClass="input-large">
-				    				<f:validateLength minimum="14" maximum="14" />
-				    			</h:inputText>
+				    			<h:inputText value="#{clienteMB.cliente.cnpj}" label="CNPJ" required="true" validator="br.com.fono.validator.CnpjValidator" styleClass="input-large"/>
 				    		</div>
 			    		</div>
 			    		<div class="control-group">
