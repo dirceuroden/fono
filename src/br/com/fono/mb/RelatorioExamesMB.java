@@ -136,7 +136,9 @@ public class RelatorioExamesMB extends AbstractFacesBean implements Serializable
 	    }
 	}
 	
-
+	public boolean getExibeBotaoDownload() {
+		return !exames.isEmpty();
+	}
 
 	public Exame getExame() {
 		return exame;
